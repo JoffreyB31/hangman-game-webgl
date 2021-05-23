@@ -11,9 +11,16 @@
     </div>
 
     <div class="flex-container counter-container">
-      <p v-if="gameState == GAME_STATE.LOADING">Chargement des données</p>
-      <p v-else-if="gameState == GAME_STATE.WIN">Vous avez gagné</p>
-      <p v-else-if="gameState == GAME_STATE.LOSE">Vous avez perdu</p>
+      <p v-if="gameState === GAME_STATE.LOADING">Chargement des données</p>
+      <GameFinished
+        @replay="replay"
+        v-else-if="gameState === GAME_STATE.WIN"
+        win
+      />
+      <GameFinished
+        @replay="replay"
+        v-else-if="gameState === GAME_STATE.LOSE"
+      />
       <p v-else>Essai restants : {{ lettersLeft }}</p>
     </div>
 
@@ -34,6 +41,7 @@
 import axios from "axios";
 import Letter from "@/components/Letter.vue";
 import DisplayLetter from "@/components/DisplayLetter.vue";
+import GameFinished from "@/components/GameFinished.vue";
 
 export default {
   name: "PlayView",
@@ -41,6 +49,7 @@ export default {
   components: {
     Letter,
     DisplayLetter,
+    GameFinished,
   },
 
   data: () => ({
@@ -87,6 +96,12 @@ export default {
   },
 
   methods: {
+    replay() {
+      this.usedLetters = [];
+      this.counter = 0;
+      this.word = [...this.getRandomWord()].map((x) => x.toLowerCase());
+    },
+
     async fetchData() {
       this.loading = true;
       return axios
@@ -106,12 +121,14 @@ export default {
     },
 
     onLetterClicked(letter) {
-      if (!this.usedLetters.includes(letter)) {
-        this.usedLetters.push(letter);
-      }
+      if (this.gameState === this.GAME_STATE.PLAYING) {
+        if (!this.usedLetters.includes(letter)) {
+          this.usedLetters.push(letter);
+        }
 
-      if (!this.isLetterValid(letter)) {
-        this.counter++;
+        if (!this.isLetterValid(letter)) {
+          this.counter++;
+        }
       }
     },
 
@@ -134,7 +151,7 @@ export default {
 <style lang="scss" scoped>
 .flex-container {
   display: flex;
-  margin: 0 auto 25px auto;
+  margin: 0 auto 50px auto;
 }
 
 .display-container {

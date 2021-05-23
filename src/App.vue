@@ -11,5 +11,21 @@
   -moz-osx-font-smoothing: grayscale;
   width: "100vw";
   height: "100vh";
+
+  .app-button {
+    text-decoration: none;
+    padding: 12px 30px;
+    margin: 5px;
+    border-radius: 7px;
+    background-color: $keyboardColor1;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      background-color: $keyboardColor2;
+    }
+  }
 }
 </style>

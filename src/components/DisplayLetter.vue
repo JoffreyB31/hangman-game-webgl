@@ -18,6 +18,7 @@ export default {
 <style lang="scss" scoped>
 .display-letter {
   width: $displayLetterSize;
+  min-height: $displayLetterSize;
   align-items: center;
   align-content: center;
   padding: $displayLetterSize/2;
