@@ -1,6 +1,14 @@
 <template>
-  <div class="display-letter" :class="{ 'display-letter-visible': visible }">
-    {{ visible ? letter.toUpperCase() : "" }}
+  <div
+    class="display-letter"
+    :class="{
+      'display-letter-visible': visible,
+      'display-letter-special': isSpecialChar,
+      'display-letter-correct': end && visible,
+      'display-letter-error': end && !visible,
+    }"
+  >
+    {{ visible || end ? letter.toUpperCase() : "" }}
   </div>
 </template>
 
@@ -11,6 +19,14 @@ export default {
   props: {
     letter: { type: String, required: true },
     visible: { type: Boolean, default: false },
+    isSpecialChar: { type: Boolean, default: false },
+    end: { type: Boolean, default: false },
+  },
+
+  methods: {
+    isSpace() {
+      return this.letter === " ";
+    },
   },
 };
 </script>
@@ -26,10 +42,23 @@ export default {
   margin-right: 20px;
   color: black;
   text-align: center;
-  border-bottom: 5px solid $keyboardColor1;
+  border-bottom: 10px solid $keyboardColor1;
+  font-weight: bold;
 
   &:last-child {
     margin-right: 0;
+  }
+
+  &.display-letter-special {
+    border-bottom: none;
+  }
+
+  &.display-letter-correct {
+    color: $greenColor;
+  }
+
+  &.display-letter-error {
+    color: $redColor;
   }
 }
 </style>

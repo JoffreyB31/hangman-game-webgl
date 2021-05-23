@@ -6,7 +6,9 @@
         v-for="(letter, idx) in word"
         :key="'letter-display-' + idx"
         :letter="letter"
-        :visible="isLetterUsed(letter) || isSpecialCharacter(letter)"
+        :end="gameState === GAME_STATE.LOSE || gameState === GAME_STATE.WIN"
+        :is-special-char="isSpecialChar(letter)"
+        :visible="isLetterUsed(letter) || isSpecialChar(letter)"
       />
     </div>
 
@@ -65,7 +67,7 @@ export default {
     dataUrl:
       "https://gist.githubusercontent.com/pleasemorecoffee/13e65c88e7ab65f88f13a01928632311/raw/59d0ba6a5ba865967cc2de2619300613bfd2f55c/pendu.json",
     dataWords: [],
-    word: "",
+    word: [],
     usedLetters: [], // Set not reactive with Vue2
     counter: 0,
   }),
@@ -74,7 +76,11 @@ export default {
     gameState() {
       if (this.loading) {
         return this.GAME_STATE.LOADING;
-      } else if (this.word.every((v) => this.usedLetters.includes(v))) {
+      } else if (
+        this.word.every(
+          (v) => this.isSpecialChar(v) || this.usedLetters.includes(v)
+        )
+      ) {
         return this.GAME_STATE.WIN;
       } else if (this.lettersLeft <= 0) {
         return this.GAME_STATE.LOSE;
@@ -99,7 +105,12 @@ export default {
     replay() {
       this.usedLetters = [];
       this.counter = 0;
-      this.word = [...this.getRandomWord()].map((x) => x.toLowerCase());
+      const previousWord = this.word.join();
+      let newWord;
+      while (newWord === undefined || previousWord === newWord) {
+        newWord = this.getRandomWord();
+      }
+      this.word = [...newWord].map((x) => x.toLowerCase());
     },
 
     async fetchData() {
@@ -132,7 +143,7 @@ export default {
       }
     },
 
-    isSpecialCharacter(letter) {
+    isSpecialChar(letter) {
       return this.specialCharacters.includes(letter);
     },
     isLetterUsed(letter) {
