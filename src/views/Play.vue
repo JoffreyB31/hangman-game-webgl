@@ -1,18 +1,20 @@
 <template>
   <div id="play">
+    <!-- <Animation /> -->
     <div class="flex-container display-container">
       <DisplayLetter
         v-for="(letter, idx) in word"
         :key="'letter-display-' + idx"
         :letter="letter"
-        :visible="isLetterUsed(letter)"
-        :is-special-character="isSpecialCharacter(letter)"
+        :visible="isLetterUsed(letter) || isSpecialCharacter(letter)"
       />
     </div>
 
     <div class="flex-container counter-container">
-      <p v-if="gameLose">Vous avez perdu</p>
-      <p v-else>Essai restants : {{ counterLimit }}</p>
+      <p v-if="gameState == GAME_STATE.LOADING">Chargement des données</p>
+      <p v-else-if="gameState == GAME_STATE.WIN">Vous avez gagné</p>
+      <p v-else-if="gameState == GAME_STATE.LOSE">Vous avez perdu</p>
+      <p v-else>Essai restants : {{ lettersLeft }}</p>
     </div>
 
     <div class="flex-container keyboard-container">
@@ -32,6 +34,7 @@
 import axios from "axios";
 import Letter from "@/components/Letter.vue";
 import DisplayLetter from "@/components/DisplayLetter.vue";
+
 export default {
   name: "PlayView",
 
@@ -41,65 +44,88 @@ export default {
   },
 
   data: () => ({
-    dataUrl:
-      "https://gist.githubusercontent.com/pleasemorecoffee/13e65c88e7ab65f88f13a01928632311/raw/59d0ba6a5ba865967cc2de2619300613bfd2f55c/pendu.json",
     alphabet: [..."abcdefghijklmnopqrstuvwxyz"],
     specialCharacters: [...".-, "],
-    words: [],
+    GAME_STATE: Object.freeze({
+      LOADING: "LOADING",
+      WIN: "WIN",
+      LOSE: "LOSE",
+      PLAYING: "PLAYING",
+    }),
+    loading: false,
+    dataUrl:
+      "https://gist.githubusercontent.com/pleasemorecoffee/13e65c88e7ab65f88f13a01928632311/raw/59d0ba6a5ba865967cc2de2619300613bfd2f55c/pendu.json",
+    dataWords: [],
     word: "",
-    usedLetters: [],
+    usedLetters: [], // Set not reactive with Vue2
     counter: 0,
   }),
 
   computed: {
-    gameLose() {
-      return this.counterLimit === 0;
+    gameState() {
+      if (this.loading) {
+        return this.GAME_STATE.LOADING;
+      } else if (this.word.every((v) => this.usedLetters.includes(v))) {
+        return this.GAME_STATE.WIN;
+      } else if (this.lettersLeft <= 0) {
+        return this.GAME_STATE.LOSE;
+      }
+      return this.GAME_STATE.PLAYING;
     },
 
-    counterLimit() {
+    lettersLeft() {
       return 7 - this.counter;
     },
   },
 
   async mounted() {
-    if (this.words.length === 0) {
+    if (this.dataWords.length === 0) {
       await this.fetchData();
     }
+    // Split characters into array
     this.word = [...this.getRandomWord()].map((x) => x.toLowerCase());
   },
 
   methods: {
     async fetchData() {
+      this.loading = true;
       return axios
         .get(this.dataUrl)
         .then((res) => {
-          this.words = res.data.values || [];
-          // Split each characters into an array
+          this.dataWords = res.data.values || [];
+          this.loading = false;
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
+          this.loading = false;
         });
     },
+
     getRandomWord() {
-      return this.words[Math.floor(Math.random() * this.words.length)];
+      return this.dataWords[Math.floor(Math.random() * this.dataWords.length)];
     },
-    isSpecialCharacter(letter) {
-      return this.specialCharacters.includes(letter);
-    },
-    isLetterError(letter) {
-      return !this.word.includes(letter) && this.isLetterUsed(letter);
-    },
-    isLetterUsed(letter) {
-      return this.usedLetters.includes(letter);
-    },
+
     onLetterClicked(letter) {
       if (!this.usedLetters.includes(letter)) {
         this.usedLetters.push(letter);
       }
 
-      if (!this.word.includes(letter)) {
+      if (!this.isLetterValid(letter)) {
         this.counter++;
       }
+    },
+
+    isSpecialCharacter(letter) {
+      return this.specialCharacters.includes(letter);
+    },
+    isLetterUsed(letter) {
+      return this.usedLetters.includes(letter);
+    },
+    isLetterValid(letter) {
+      return this.word.includes(letter);
+    },
+    isLetterError(letter) {
+      return !this.isLetterValid(letter) && this.isLetterUsed(letter);
     },
   },
 };

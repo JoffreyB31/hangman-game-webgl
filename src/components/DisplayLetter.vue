@@ -1,11 +1,6 @@
 <template>
-  <div
-    class="display-letter"
-    :class="{
-      'display-letter-visible': visible && !isSpecialCharacter,
-    }"
-  >
-    {{ visible || isSpecialCharacter ? letter.toUpperCase() : "_" }}
+  <div class="display-letter" :class="{ 'display-letter-visible': visible }">
+    {{ visible ? letter.toUpperCase() : "" }}
   </div>
 </template>
 
@@ -16,7 +11,6 @@ export default {
   props: {
     letter: { type: String, required: true },
     visible: { type: Boolean, default: false },
-    isSpecialCharacter: { type: Boolean, default: false },
   },
 };
 </script>
@@ -28,12 +22,13 @@ export default {
   align-content: center;
   padding: $displayLetterSize/2;
   font-size: $displayLetterSize;
-  margin: 5px;
+  margin-right: 20px;
   color: black;
   text-align: center;
+  border-bottom: 5px solid $keyboardColor1;
 
-  &.display-letter-hidden {
-    background-color: rgb(44, 44, 44);
+  &:last-child {
+    margin-right: 0;
   }
 }
 </style>
