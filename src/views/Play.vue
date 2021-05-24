@@ -1,6 +1,5 @@
 <template>
   <div id="play">
-    <!-- <Animation /> -->
     <div class="flex-container display-container">
       <DisplayLetter
         v-for="(letter, idx) in word"
@@ -13,17 +12,20 @@
     </div>
 
     <div class="flex-container counter-container">
-      <p v-if="gameState === GAME_STATE.LOADING">Chargement des données</p>
-      <GameFinished
-        @replay="replay"
-        v-else-if="gameState === GAME_STATE.WIN"
-        win
-      />
-      <GameFinished
-        @replay="replay"
-        v-else-if="gameState === GAME_STATE.LOSE"
-      />
-      <p v-else>Essai restants : {{ lettersLeft }}</p>
+      <Animation class="counter-animation" />
+      <div>
+        <p v-if="gameState === GAME_STATE.LOADING">Chargement des données</p>
+        <GameFinished
+          @replay="replay"
+          v-else-if="gameState === GAME_STATE.WIN"
+          win
+        />
+        <GameFinished
+          @replay="replay"
+          v-else-if="gameState === GAME_STATE.LOSE"
+        />
+        <p v-else>Essai restants : {{ lettersLeft }}</p>
+      </div>
     </div>
 
     <div class="flex-container keyboard-container">
@@ -42,6 +44,7 @@
 <script>
 import axios from "axios";
 import Letter from "@/components/Letter.vue";
+import Animation from "@/components/Animation.vue";
 import DisplayLetter from "@/components/DisplayLetter.vue";
 import GameFinished from "@/components/GameFinished.vue";
 
@@ -49,6 +52,7 @@ export default {
   name: "PlayView",
 
   components: {
+    Animation,
     Letter,
     DisplayLetter,
     GameFinished,
@@ -173,6 +177,14 @@ export default {
 
 .counter-container {
   justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .counter-animation {
+    max-width: 40%;
+    min-width: 300px;
+    margin-bottom: 20px;
+  }
 }
 
 .keyboard-container {
