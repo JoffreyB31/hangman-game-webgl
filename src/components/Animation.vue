@@ -27,10 +27,21 @@ export default {
     counter: { type: Number, default: 0 },
   },
 
+  computed: {
+    activeLocale() {
+      return this.$i18n.locale;
+    },
+  },
+
   watch: {
     counter(newVal, oldVal) {
       if (newVal !== oldVal) {
         this.updateHangman();
+      }
+    },
+    activeLocale(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.setGameNameText();
       }
     },
   },
@@ -105,17 +116,28 @@ export default {
       // const grid = new THREE.GridHelper(100, 10, this.gridColor, this.gridColor);
       // this.scene.add(grid);
 
+      this.setGameNameText();
+    },
+
+    setGameNameText() {
+      if (this.meshs.gameName) {
+        this.scene.remove(this.meshs.gameName);
+      }
+
       const loader = new THREE.FontLoader();
       loader.load("fonts/open_sans_regular.json", (font) => {
-        const gameName = new THREE.TextGeometry("Jeu du pendu", {
+        const gameName = new THREE.TextGeometry(this.$t("hangman"), {
           font: font,
           size: 8,
           height: 2,
         });
-        var mesh = new THREE.Mesh(gameName, new THREE.MeshPhongMaterial({ color: this.gridColor }));
-        mesh.position.set(-35, 20, 20);
-        this.rotateObject(mesh, 0, 45, 0);
-        this.scene.add(mesh);
+        this.meshs.gameName = new THREE.Mesh(
+          gameName,
+          new THREE.MeshPhongMaterial({ color: this.gridColor })
+        );
+        this.meshs.gameName.position.set(-35, 20, 20);
+        this.rotateObject(this.meshs.gameName, 0, 45, 0);
+        this.scene.add(this.meshs.gameName);
       });
     },
 

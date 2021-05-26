@@ -14,10 +14,10 @@
     <div class="flex-container counter-container">
       <Animation class="counter-animation" :counter="counter" />
       <div>
-        <p v-if="gameState === GAME_STATE.LOADING">Chargement des données</p>
+        <p v-if="gameState === GAME_STATE.LOADING">{{ $t("loading") }}</p>
         <GameFinished @replay="replay" v-else-if="gameState === GAME_STATE.WIN" win />
         <GameFinished @replay="replay" v-else-if="gameState === GAME_STATE.LOSE" />
-        <p v-else>Essai restants : {{ lettersLeft }}</p>
+        <p v-else>{{ $t("errorsLeft") + " : " + lettersLeft }}</p>
       </div>
     </div>
 

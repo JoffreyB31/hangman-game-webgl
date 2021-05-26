@@ -1,0 +1,11 @@
+{
+  "errorsLeft": "Errors left",
+  "hangman": "Hangman game",
+  "hangmanGameDescription": "<p>Hangman is a game of finding a word by guessing which letters are in it. The game is traditionally played in pairs, with paper and pencil, according to a very specific sequence.<p></p>It is occasionally performed in classrooms where a pupil at the blackboard plays against all of his classmates, drawing in chalk. Law students also practice it to play at being guessed at the names of important judgments in case law, which makes it possible to revise in a fun way while greatly increasing the difficulty of the game.<p></p>The finished drawing shows a hanging stick figure.</p>",
+  "home": "Home",
+  "loading": "Loading data",
+  "loseMessage": "You lost",
+  "play": "Play",
+  "replay": "Replay",
+  "winMessage": "You have won"
+}
