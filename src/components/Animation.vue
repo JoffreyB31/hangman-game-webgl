@@ -12,14 +12,28 @@ export default {
   data: () => ({
     gallowColor: 0x2b2b2b,
     hangmanColor: 0x5a8dcc,
+    gridColor: 0x536480,
     node: undefined,
     nodeRatio: 0,
     nodeHeight: 0,
     nodeWidth: 0,
+    meshs: {},
     renderer: undefined,
     camera: undefined,
     scene: undefined,
   }),
+
+  props: {
+    counter: { type: Number, default: 0 },
+  },
+
+  watch: {
+    counter(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.updateHangman();
+      }
+    },
+  },
 
   mounted() {
     this.node = this.$refs.renderer;
@@ -41,6 +55,37 @@ export default {
   },
 
   methods: {
+    updateHangman() {
+      switch (this.counter) {
+        case 0:
+          this.resetObjectsVisibility();
+          break;
+        case 1:
+          this.meshs.base.visible = true;
+          break;
+        case 2:
+          this.meshs.leftBar.visible = true;
+          break;
+        case 3:
+          this.meshs.top.visible = true;
+          break;
+        case 4:
+          this.meshs.head.visible = true;
+          break;
+        case 5:
+          this.meshs.body.visible = true;
+          break;
+        case 6:
+          this.meshs.armRigth.visible = true;
+          this.meshs.armLeft.visible = true;
+          break;
+        case 7:
+          this.meshs.legRigth.visible = true;
+          this.meshs.legLeft.visible = true;
+          break;
+      }
+    },
+
     getNodeSize() {
       const { width, height } = this.node.getBoundingClientRect();
       this.nodeWidth = width;
@@ -55,40 +100,87 @@ export default {
       this.renderer.setSize(this.nodeWidth, this.nodeHeight);
       this.node.appendChild(this.renderer.domElement);
 
-      const grid = new THREE.GridHelper(100, 5);
-      this.scene.add(grid);
+      this.renderer.shadowMap.enabled = true;
+
+      // const grid = new THREE.GridHelper(100, 10, this.gridColor, this.gridColor);
+      // this.scene.add(grid);
+
+      const loader = new THREE.FontLoader();
+      loader.load("fonts/open_sans_regular.json", (font) => {
+        const gameName = new THREE.TextGeometry("Jeu du pendu", {
+          font: font,
+          size: 8,
+          height: 2,
+        });
+        var mesh = new THREE.Mesh(gameName, new THREE.MeshPhongMaterial({ color: this.gridColor }));
+        mesh.position.set(-35, 20, 20);
+        this.rotateObject(mesh, 0, 45, 0);
+        this.scene.add(mesh);
+      });
     },
 
     setCamera() {
-      const fov = 45;
+      const fov = 60;
       this.camera = new THREE.PerspectiveCamera(fov, this.nodeRatio, 0.1, 1000);
-      this.camera.position.set(45, 45, 45);
-      // this.camera.up.set(0, 1, 0);
+      this.camera.position.set(25, 23, 22);
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.addEventListener("change", this.render);
+      // Override the camera target
+      this.controls.target = new THREE.Vector3(0, 18, 0);
+
+      // const cameraHelper = new THREE.CameraHelper(this.camera);
+      // this.scene.add(cameraHelper);
     },
 
     setLights() {
-      const directionalLight = new THREE.DirectionalLight(0x404040, 4);
-      directionalLight.position.set(0, 2000, 2000);
-      directionalLight.target.position.set(0, 2, 0);
-      this.scene.add(directionalLight);
+      const light = new THREE.DirectionalLight(0x404040, 4);
+      light.position.set(0, 200, 200);
+      light.target.position.set(0, 2, 0);
+      this.scene.add(light);
 
       const ambientLight = new THREE.AmbientLight(0x404040, 2);
       this.scene.add(ambientLight);
     },
 
     setHangman() {
-      const base = this.createBox(10, 2.5, 2.5, -10, 0, 0);
-      const leftBar = this.createBox(2.5, 30, 2.5, -10, 15, 0);
-      const top = this.createBox(25, 2.5, 2.5, 0, 30, 0);
-      const rightBar = this.createSphere(5, 32, 32, 0, 0, 0, this.hangmanColor);
+      this.meshs.base = this.createBox(10, 2.5, 2.5, -10, 0, 0);
+      this.meshs.leftBar = this.createBox(2.5, 30, 2.5, -10, 15, 0);
+      this.meshs.top = this.createBox(25, 2.5, 2.5, 0, 30, 0);
+      this.meshs.head = this.createSphere(4, 32, 32, 10, 25, 0, this.hangmanColor);
+      this.meshs.body = this.createBox(2.5, 10, 2.5, 10, 17, 0, this.hangmanColor);
+      this.meshs.armRigth = this.createBox(2.5, 7, 2.5, 7, 18, 0, this.hangmanColor);
+      this.meshs.armLeft = this.createBox(2.5, 7, 2.5, 13, 18, 0, this.hangmanColor);
+      this.meshs.legRigth = this.createBox(2.5, 7, 2.5, 7, 10, 0, this.hangmanColor);
+      this.meshs.legLeft = this.createBox(2.5, 7, 2.5, 13, 10, 0, this.hangmanColor);
+      this.rotateObject(this.meshs.armRigth, 0, 0, -45);
+      this.rotateObject(this.meshs.armLeft, 0, 0, 45);
+      this.rotateObject(this.meshs.legRigth, 0, 0, -45);
+      this.rotateObject(this.meshs.legLeft, 0, 0, 45);
 
-      this.scene.add(base);
-      this.scene.add(leftBar);
-      this.scene.add(top);
-      this.scene.add(rightBar);
+      this.resetObjectsVisibility();
+
+      this.scene.add(this.meshs.base);
+      this.scene.add(this.meshs.leftBar);
+      this.scene.add(this.meshs.top);
+      this.scene.add(this.meshs.head);
+      this.scene.add(this.meshs.body);
+      this.scene.add(this.meshs.armRigth);
+      this.scene.add(this.meshs.armLeft);
+      this.scene.add(this.meshs.legRigth);
+      this.scene.add(this.meshs.legLeft);
+    },
+
+    resetObjectsVisibility() {
+      for (const meshName in this.meshs) {
+        this.meshs[meshName].visible = false;
+      }
+    },
+
+    rotateObject(obj, X = 0, Y = 0, Z = 0) {
+      obj.rotateX(THREE.Math.degToRad(X));
+      obj.rotateY(THREE.Math.degToRad(Y));
+      obj.rotateZ(THREE.Math.degToRad(Z));
     },
 
     createSphere(radius, wSegments, hSegments, xPos, yPos, zPos, _color) {
@@ -104,45 +196,17 @@ export default {
     },
 
     createMesh(geom, xPos, yPos, zPos, color) {
-      const material = new THREE.MeshBasicMaterial({ color });
+      const material = new THREE.MeshStandardMaterial({ color });
       const mesh = new THREE.Mesh(geom, material);
       mesh.position.x = xPos;
       mesh.position.y = yPos;
       mesh.position.z = zPos;
 
+      mesh.receiveShadow = true;
+      mesh.castShadow = true;
+
       return mesh;
     },
-
-    // createBall() {
-    //   const ballGeom = new THREE.SphereGeometry(5, 32, 32);
-    //   const ballMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
-    //   const ball = new THREE.Mesh(ballGeom, ballMaterial);
-    //   ball.position.y = 13.3;
-
-    //   this.scene.add(ball);
-    // },
-
-    // createTee() {
-    //   const tee = new THREE.Object3D();
-    //   const teeMat = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-
-    //   const stemGeom = new THREE.CylinderGeometry(0.9, 0.75, 7);
-    //   const stem = new THREE.Mesh(stemGeom, teeMat);
-    //   tee.add(stem);
-
-    //   const bevelGeom = new THREE.CylinderGeometry(1.5, 0.9, 2);
-    //   const bevel = new THREE.Mesh(bevelGeom, teeMat);
-    //   bevel.position.y = 3.75;
-    //   tee.add(bevel);
-
-    //   const topGeom = new THREE.CylinderGeometry(1.5, 1.5, 0.25);
-    //   const top = new THREE.Mesh(topGeom, teeMat);
-    //   top.position.y = 4.875;
-    //   tee.add(top);
-
-    //   tee.position.y = 3.5;
-    //   this.scene.add(tee);
-    // },
 
     render() {
       this.renderer.render(this.scene, this.camera);

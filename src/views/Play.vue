@@ -12,18 +12,11 @@
     </div>
 
     <div class="flex-container counter-container">
-      <Animation class="counter-animation" />
+      <Animation class="counter-animation" :counter="counter" />
       <div>
         <p v-if="gameState === GAME_STATE.LOADING">Chargement des données</p>
-        <GameFinished
-          @replay="replay"
-          v-else-if="gameState === GAME_STATE.WIN"
-          win
-        />
-        <GameFinished
-          @replay="replay"
-          v-else-if="gameState === GAME_STATE.LOSE"
-        />
+        <GameFinished @replay="replay" v-else-if="gameState === GAME_STATE.WIN" win />
+        <GameFinished @replay="replay" v-else-if="gameState === GAME_STATE.LOSE" />
         <p v-else>Essai restants : {{ lettersLeft }}</p>
       </div>
     </div>
@@ -60,7 +53,7 @@ export default {
 
   data: () => ({
     alphabet: [..."abcdefghijklmnopqrstuvwxyz"],
-    specialCharacters: [...".-, "],
+    specialCharacters: [...".-,' "],
     GAME_STATE: Object.freeze({
       LOADING: "LOADING",
       WIN: "WIN",
@@ -80,11 +73,7 @@ export default {
     gameState() {
       if (this.loading) {
         return this.GAME_STATE.LOADING;
-      } else if (
-        this.word.every(
-          (v) => this.isSpecialChar(v) || this.usedLetters.includes(v)
-        )
-      ) {
+      } else if (this.word.every((v) => this.isSpecialChar(v) || this.usedLetters.includes(v))) {
         return this.GAME_STATE.WIN;
       } else if (this.lettersLeft <= 0) {
         return this.GAME_STATE.LOSE;
@@ -166,7 +155,7 @@ export default {
 <style lang="scss" scoped>
 .flex-container {
   display: flex;
-  margin: 0 auto 50px auto;
+  margin: 0 auto 25px auto;
 }
 
 .display-container {
@@ -177,6 +166,7 @@ export default {
 
 .counter-container {
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   text-align: center;
 
