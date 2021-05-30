@@ -2,7 +2,6 @@
   <div
     class="display-letter"
     :class="{
-      'display-letter-visible': visible,
       'display-letter-special': isSpecialChar,
       'display-letter-correct': end && visible,
       'display-letter-error': end && !visible,

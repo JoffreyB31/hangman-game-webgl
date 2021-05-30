@@ -40,11 +40,7 @@ export default {
   box-shadow: 0px 2px 0 $darkGray;
 
   &:hover {
-    background-image: linear-gradient(
-      to right,
-      $keyboardColor2,
-      $keyboardColor1
-    );
+    background-image: linear-gradient(to right, $keyboardColor2, $keyboardColor1);
   }
 
   &.letter-active {
