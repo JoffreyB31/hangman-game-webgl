@@ -4,8 +4,8 @@
       {{ win ? $t("winMessage") : $t("loseMessage") }}
     </div>
     <div>
-      <a class="app-button" @click="$emit('replay')">{{ $t("replay") }}</a>
-      <router-link to="/" class="app-button">{{ $t("home") }}</router-link>
+      <a class="app-button game-button" @click="$emit('replay')">{{ $t("replay") }}</a>
+      <router-link to="/" class="app-button game-button">{{ $t("home") }}</router-link>
     </div>
   </div>
 </template>
@@ -24,5 +24,15 @@ export default {
 .game-finished-text {
   text-align: center;
   margin-bottom: 25px;
+}
+
+.game-button {
+  color: $keyboardColor1 !important;
+  background-color: white !important;
+
+  &:hover {
+    background-color: $keyboardColor1 !important;
+    color: white !important;
+  }
 }
 </style>

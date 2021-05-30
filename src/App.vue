@@ -15,6 +15,10 @@ export default {
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 
+body {
+  margin: 0;
+}
+
 #app {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -27,14 +31,15 @@ export default {
     padding: 12px 30px;
     margin: 5px;
     border-radius: 7px;
-    background-color: $keyboardColor1;
     color: white;
+    background-color: $keyboardColor1;
     cursor: pointer;
     text-align: center;
     transition: all 250ms ease-in-out;
 
     &:hover {
-      background-color: $keyboardColor2;
+      color: $keyboardColor1;
+      background-color: white;
     }
   }
 }

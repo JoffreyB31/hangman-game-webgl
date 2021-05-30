@@ -245,7 +245,7 @@ export default {
 
 <style lang="scss" scoped>
 #renderer {
-  height: 300px;
+  height: 250px;
   width: 100%;
   display: block;
 }

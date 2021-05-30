@@ -1,35 +1,40 @@
 <template>
   <div id="play">
-    <div class="flex-container display-container">
-      <DisplayLetter
-        v-for="(letter, idx) in word"
-        :key="'letter-display-' + idx"
-        :letter="letter"
-        :end="gameState === GAME_STATE.LOSE || gameState === GAME_STATE.WIN"
-        :is-special-char="isSpecialChar(letter)"
-        :visible="isLetterUsed(letter) || isSpecialChar(letter)"
-      />
-    </div>
-
-    <div class="flex-container counter-container">
-      <Animation class="counter-animation" :counter="counter" />
-      <div>
+    <div class="display-container">
+      <div class="flex-container display-container-inner">
+        <DisplayLetter
+          v-for="(letter, idx) in word"
+          :key="'letter-display-' + idx"
+          :letter="letter"
+          :end="gameState === GAME_STATE.LOSE || gameState === GAME_STATE.WIN"
+          :is-special-char="isSpecialChar(letter)"
+          :visible="isLetterUsed(letter) || isSpecialChar(letter)"
+        />
+      </div>
+      <div class="flex-container state-container">
         <p v-if="gameState === GAME_STATE.LOADING">{{ $t("loading") }}</p>
         <GameFinished @replay="replay" v-else-if="gameState === GAME_STATE.WIN" win />
         <GameFinished @replay="replay" v-else-if="gameState === GAME_STATE.LOSE" />
         <p v-else>{{ $t("errorsLeft") + " : " + lettersLeft }}</p>
       </div>
+      <VerticalDivider />
     </div>
 
-    <div class="flex-container keyboard-container">
-      <Letter
-        v-for="letter in alphabet"
-        :key="'letter-' + letter"
-        :letter="letter"
-        :error="isLetterError(letter)"
-        :active="isLetterUsed(letter)"
-        @clicked="onLetterClicked"
-      />
+    <div class="game-container">
+      <div class="flex-container counter-container">
+        <Animation class="counter-animation" :counter="counter" />
+      </div>
+
+      <div class="flex-container keyboard-container">
+        <Letter
+          v-for="letter in alphabet"
+          :key="'letter-' + letter"
+          :letter="letter"
+          :error="isLetterError(letter)"
+          :active="isLetterUsed(letter)"
+          @clicked="onLetterClicked"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +45,7 @@ import Letter from "@/components/Letter.vue";
 import Animation from "@/components/Animation.vue";
 import DisplayLetter from "@/components/DisplayLetter.vue";
 import GameFinished from "@/components/GameFinished.vue";
+import VerticalDivider from "@/components/VerticalDivider.vue";
 
 export default {
   name: "PlayView",
@@ -49,6 +55,7 @@ export default {
     Letter,
     DisplayLetter,
     GameFinished,
+    VerticalDivider,
   },
 
   data: () => ({
@@ -155,32 +162,56 @@ export default {
 <style lang="scss" scoped>
 .flex-container {
   display: flex;
-  margin: 0 auto 25px auto;
+  margin: 0 auto;
 }
 
 .display-container {
-  flex-wrap: nowrap;
-  max-width: 90%;
-  justify-content: center;
-}
+  background-color: $keyboardColor1;
 
-.counter-container {
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  .state-container {
+    color: #fff;
+    text-align: center;
+    margin: 0 auto 25px auto;
+    display: block;
 
-  .counter-animation {
-    max-width: 40%;
-    min-width: 300px;
-    margin-bottom: 20px;
+    p {
+      margin: 0;
+    }
+  }
+
+  .display-container-inner {
+    flex-wrap: nowrap;
+    max-width: 90%;
+    justify-content: center;
+    padding-bottom: 50px;
+    margin-bottom: 0;
   }
 }
 
-.keyboard-container {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 80%;
-  min-width: 500px;
+.game-container {
+  position: relative;
+  top: -75px;
+
+  .counter-container {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    margin-bottom: 0;
+
+    .counter-animation {
+      max-width: 40%;
+      min-width: 300px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .keyboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 80%;
+    min-width: 500px;
+  }
 }
 </style>
