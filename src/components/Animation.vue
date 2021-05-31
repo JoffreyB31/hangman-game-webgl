@@ -4,7 +4,8 @@
 
 <script>
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "@/vendor/OrbitControls";
+import { WEBGL } from "@/vendor/WEBGL";
 
 export default {
   name: "AnimationComponent",
@@ -47,6 +48,9 @@ export default {
   },
 
   mounted() {
+    if (!WEBGL.isWebGLAvailable()) {
+      return;
+    }
     this.node = this.$refs.renderer;
     this.getNodeSize();
 
@@ -54,14 +58,13 @@ export default {
     this.setCamera();
     this.setLights();
     this.setHangman();
-
     this.animate();
 
-    window.addEventListener("resize", this.resize);
+    window.addEventListener("resize", this.render);
   },
 
   beforeDestroy() {
-    window.removeEventListener("resize", this.resize);
+    window.removeEventListener("resize", this.render);
     this.controls.removeEventListener("change", this.render);
   },
 

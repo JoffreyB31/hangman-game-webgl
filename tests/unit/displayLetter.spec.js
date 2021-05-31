@@ -1,5 +1,5 @@
 import DisplayLetter from "@/components/DisplayLetter.vue";
-import { shallowMount } from "@vue/test-utils";
+import { shallowMount } from "./customMount";
 
 describe("DisplayLetter.vue", () => {
   const specialChar = ".";
@@ -17,10 +17,7 @@ describe("DisplayLetter.vue", () => {
 
   it("should show the letter when visible is true", () => {
     const wrapper = shallowMount(DisplayLetter, {
-      propsData: {
-        letter,
-        visible: true,
-      },
+      propsData: { letter, visible: true },
     });
     const node = wrapper.find(".display-letter");
     expect(node.text()).toMatch(letter.toUpperCase());
@@ -30,10 +27,7 @@ describe("DisplayLetter.vue", () => {
 
   it("should show a special character", () => {
     const wrapper = shallowMount(DisplayLetter, {
-      propsData: {
-        letter: specialChar,
-        visible: true,
-      },
+      propsData: { letter: specialChar, visible: true },
     });
     const node = wrapper.find(".display-letter");
     expect(node.text()).toMatch(specialChar);
@@ -41,13 +35,9 @@ describe("DisplayLetter.vue", () => {
     expect(node.classes()).not.toContain("display-letter-error");
   });
 
-  it("should show a correct letter when visible and end is true", () => {
+  it("should show a correct letter when visible and game is finish", () => {
     const wrapper = shallowMount(DisplayLetter, {
-      propsData: {
-        letter,
-        visible: true,
-        end: true,
-      },
+      propsData: { letter, visible: true, end: true },
     });
     const node = wrapper.find(".display-letter");
     expect(node.text()).toMatch(letter.toUpperCase());
@@ -55,13 +45,9 @@ describe("DisplayLetter.vue", () => {
     expect(node.classes()).not.toContain("display-letter-error");
   });
 
-  it("should show an error letter when not visible and end is true", () => {
+  it("should show an error letter when not visible and game is finish", () => {
     const wrapper = shallowMount(DisplayLetter, {
-      propsData: {
-        letter,
-        visible: false,
-        end: true,
-      },
+      propsData: { letter, visible: false, end: true },
     });
     const node = wrapper.find(".display-letter");
     expect(node.text()).toMatch(letter.toUpperCase());
