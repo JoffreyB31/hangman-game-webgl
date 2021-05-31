@@ -4,12 +4,24 @@ import { mount } from "./customMount";
 describe("Play.vue", () => {
   const word = [..."Jest-Test"];
 
-  it("should hide the letter when visible is false", () => {
+  it("should initialize the game properly", async () => {
     const wrapper = mount(Play);
-    wrapper.setData({ word });
+    await wrapper.setData({ word, loading: false });
 
-    const displayLettersNodes = wrapper.findAll(".display-container-inner div");
-    console.log(displayLettersNodes);
+    const displayLettersNodes = wrapper.findAll(".display-container-inner .display-letter");
     expect(displayLettersNodes.length).toBe(word.length);
+    expect(displayLettersNodes.at(0).text()).toEqual("");
+    expect(displayLettersNodes.at(1).text()).toEqual("");
+    expect(displayLettersNodes.at(2).text()).toEqual("");
+    expect(displayLettersNodes.at(3).text()).toEqual("");
+    expect(displayLettersNodes.at(4).text()).toEqual("-");
+    expect(displayLettersNodes.at(4).classes()).toContain("display-letter-special");
+    expect(displayLettersNodes.at(5).text()).toEqual("");
+    expect(displayLettersNodes.at(6).text()).toEqual("");
+    expect(displayLettersNodes.at(7).text()).toEqual("");
+    expect(displayLettersNodes.at(8).text()).toEqual("");
+
+    const keyboardNodes = wrapper.findAll(".game-container .keyboard-container div");
+    expect(keyboardNodes.length).toBe(26);
   });
 });
