@@ -1,4 +1,4 @@
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 module.exports = {
   publicPath: "/lab/hangman/",
@@ -12,6 +12,6 @@ module.exports = {
   },
 
   configureWebpack: {
-    plugins: [new BundleAnalyzerPlugin()],
+    // plugins: [new BundleAnalyzerPlugin()],
   },
 };
