@@ -3,9 +3,24 @@
 </template>
 
 <script>
-import * as THREE from "three";
+import {
+  Mesh,
+  FontLoader,
+  WebGLRenderer,
+  Scene,
+  TextGeometry,
+  PerspectiveCamera,
+  Vector3,
+  DirectionalLight,
+  AmbientLight,
+  Math as ThreeMath,
+  MeshPhongMaterial,
+  BoxGeometry,
+  SphereGeometry,
+  MeshStandardMaterial,
+} from "three";
 import { OrbitControls } from "@/vendor/OrbitControls";
-import { WEBGL } from "@/vendor/WEBGL";
+import { WEBGL } from "@/vendor/WebGL";
 
 export default {
   name: "AnimationComponent",
@@ -108,9 +123,9 @@ export default {
     },
 
     setScene() {
-      this.scene = new THREE.Scene();
+      this.scene = new Scene();
 
-      this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      this.renderer = new WebGLRenderer({ antialias: true, alpha: true });
       this.renderer.setSize(this.nodeWidth, this.nodeHeight);
       this.node.appendChild(this.renderer.domElement);
 
@@ -127,17 +142,14 @@ export default {
         this.scene.remove(this.meshs.gameName);
       }
 
-      const loader = new THREE.FontLoader();
+      const loader = new FontLoader();
       loader.load("fonts/open_sans_regular.json", (font) => {
-        const gameName = new THREE.TextGeometry(this.$t("hangman"), {
+        const gameName = new TextGeometry(this.$t("hangman"), {
           font: font,
           size: 8,
           height: 2,
         });
-        this.meshs.gameName = new THREE.Mesh(
-          gameName,
-          new THREE.MeshPhongMaterial({ color: this.gridColor })
-        );
+        this.meshs.gameName = new Mesh(gameName, new MeshPhongMaterial({ color: this.gridColor }));
         this.meshs.gameName.position.set(-35, 20, 20);
         this.rotateObject(this.meshs.gameName, 0, 45, 0);
         this.scene.add(this.meshs.gameName);
@@ -146,25 +158,25 @@ export default {
 
     setCamera() {
       const fov = 60;
-      this.camera = new THREE.PerspectiveCamera(fov, this.nodeRatio, 0.1, 1000);
+      this.camera = new PerspectiveCamera(fov, this.nodeRatio, 0.1, 1000);
       this.camera.position.set(25, 23, 22);
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.addEventListener("change", this.render);
       // Override the camera target
-      this.controls.target = new THREE.Vector3(0, 18, 0);
+      this.controls.target = new Vector3(0, 18, 0);
 
-      // const cameraHelper = new THREE.CameraHelper(this.camera);
+      // const cameraHelper = new CameraHelper(this.camera);
       // this.scene.add(cameraHelper);
     },
 
     setLights() {
-      const light = new THREE.DirectionalLight(0x404040, 4);
+      const light = new DirectionalLight(0x404040, 4);
       light.position.set(0, 200, 200);
       light.target.position.set(0, 2, 0);
       this.scene.add(light);
 
-      const ambientLight = new THREE.AmbientLight(0x404040, 2);
+      const ambientLight = new AmbientLight(0x404040, 2);
       this.scene.add(ambientLight);
     },
 
@@ -203,26 +215,26 @@ export default {
     },
 
     rotateObject(obj, X = 0, Y = 0, Z = 0) {
-      obj.rotateX(THREE.Math.degToRad(X));
-      obj.rotateY(THREE.Math.degToRad(Y));
-      obj.rotateZ(THREE.Math.degToRad(Z));
+      obj.rotateX(ThreeMath.degToRad(X));
+      obj.rotateY(ThreeMath.degToRad(Y));
+      obj.rotateZ(ThreeMath.degToRad(Z));
     },
 
     createSphere(radius, wSegments, hSegments, xPos, yPos, zPos, _color) {
       const color = _color || this.gallowColor;
-      const geom = new THREE.SphereGeometry(radius, wSegments, hSegments);
+      const geom = new SphereGeometry(radius, wSegments, hSegments);
       return this.createMesh(geom, xPos, yPos, zPos, color);
     },
 
     createBox(sizeX, sizeY, sizeZ, xPos, yPos, zPos, _color) {
       const color = _color || this.gallowColor;
-      const geom = new THREE.BoxGeometry(sizeX, sizeY, sizeZ);
+      const geom = new BoxGeometry(sizeX, sizeY, sizeZ);
       return this.createMesh(geom, xPos, yPos, zPos, color);
     },
 
     createMesh(geom, xPos, yPos, zPos, color) {
-      const material = new THREE.MeshStandardMaterial({ color });
-      const mesh = new THREE.Mesh(geom, material);
+      const material = new MeshStandardMaterial({ color });
+      const mesh = new Mesh(geom, material);
       mesh.position.x = xPos;
       mesh.position.y = yPos;
       mesh.position.z = zPos;
