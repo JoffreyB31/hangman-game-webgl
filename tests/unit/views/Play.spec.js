@@ -1,5 +1,5 @@
 import Play from "@/views/Play.vue";
-import { mount } from "./customMount";
+import { mount } from "../customMount";
 
 describe("Play.vue", () => {
   const word = [..."Jest-Test"];

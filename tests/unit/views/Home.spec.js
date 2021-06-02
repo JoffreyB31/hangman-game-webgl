@@ -1,5 +1,5 @@
 import Home from "@/views/Home.vue";
-import { shallowMount } from "./customMount";
+import { shallowMount } from "../customMount";
 
 describe("Home.vue", () => {
   it("should display the home correctly", () => {

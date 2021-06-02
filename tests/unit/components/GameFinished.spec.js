@@ -1,5 +1,5 @@
 import GameFinished from "@/components/GameFinished.vue";
-import { shallowMount } from "./customMount";
+import { shallowMount } from "../customMount";
 
 describe("GameFinished.vue", () => {
   it("should show the correct message when the game is won", () => {

@@ -1,5 +1,5 @@
 import DisplayLetter from "@/components/DisplayLetter.vue";
-import { shallowMount } from "./customMount";
+import { shallowMount } from "../customMount";
 
 describe("DisplayLetter.vue", () => {
   const specialChar = ".";

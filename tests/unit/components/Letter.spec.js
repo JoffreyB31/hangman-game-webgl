@@ -1,5 +1,5 @@
 import Letter from "@/components/Letter.vue";
-import { shallowMount } from "./customMount";
+import { shallowMount } from "../customMount";
 
 describe("Letter.vue", () => {
   const letter = "v";

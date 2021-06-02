@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav.vue";
-import { shallowMount } from "./customMount";
+import { shallowMount } from "../customMount";
 
 describe("Nav.vue", () => {
   it("should have 2 locales buttons", () => {
