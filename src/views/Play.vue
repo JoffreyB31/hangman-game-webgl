@@ -3,6 +3,7 @@
     <div class="display-container">
       <div class="flex-container display-container-inner">
         <DisplayLetter
+          :class="'display-letter-' + idx"
           v-for="(letter, idx) in word"
           :key="'letter-display-' + idx"
           :letter="letter"
@@ -68,8 +69,6 @@ export default {
       PLAYING: "PLAYING",
     }),
     loading: false,
-    dataUrl:
-      "https://gist.githubusercontent.com/pleasemorecoffee/13e65c88e7ab65f88f13a01928632311/raw/59d0ba6a5ba865967cc2de2619300613bfd2f55c/pendu.json",
     dataWords: [],
     word: [],
     usedLetters: [], // Set not reactive with Vue2
@@ -116,7 +115,7 @@ export default {
     async fetchData() {
       this.loading = true;
       return axios
-        .get(this.dataUrl)
+        .get(process.env.VUE_APP_DATA_URL)
         .then((res) => {
           this.dataWords = res.data.values || [];
           this.loading = false;

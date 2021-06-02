@@ -16,6 +16,9 @@ module.exports = (on, config) => {
   // }))
 
   return Object.assign({}, config, {
+    env: {
+      dataUrl: process.env.VUE_APP_DATA_URL,
+    },
     fixturesFolder: "tests/e2e/fixtures",
     integrationFolder: "tests/e2e/specs",
     screenshotsFolder: "tests/e2e/screenshots",

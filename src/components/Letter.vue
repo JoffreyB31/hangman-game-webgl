@@ -2,6 +2,7 @@
   <div
     class="letter"
     :class="{
+      ['letter-' + letter]: true,
       'letter-active': active,
       'letter-error': error,
     }"
