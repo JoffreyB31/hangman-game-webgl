@@ -67,7 +67,7 @@ export default {
       return;
     }
     this.node = this.$refs.renderer;
-    this.getNodeSize();
+    this.updateRendererSize();
 
     this.setScene();
     this.setCamera();
@@ -75,11 +75,11 @@ export default {
     this.setHangman();
     this.animate();
 
-    window.addEventListener("resize", this.render);
+    window.addEventListener("resize", this.resize);
   },
 
   beforeDestroy() {
-    window.removeEventListener("resize", this.render);
+    window.removeEventListener("resize", this.resize);
     this.controls.removeEventListener("change", this.render);
   },
 
@@ -115,7 +115,7 @@ export default {
       }
     },
 
-    getNodeSize() {
+    updateRendererSize() {
       const { width, height } = this.node.getBoundingClientRect();
       this.nodeWidth = width;
       this.nodeHeight = height;
@@ -243,6 +243,11 @@ export default {
       mesh.castShadow = true;
 
       return mesh;
+    },
+
+    resize() {
+      this.updateRendererSize();
+      this.renderer.setSize(this.nodeWidth, this.nodeHeight);
     },
 
     render() {

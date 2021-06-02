@@ -200,8 +200,6 @@ export default {
     margin-bottom: 0;
 
     .counter-animation {
-      max-width: 40%;
-      min-width: 300px;
       margin-bottom: 20px;
     }
   }
