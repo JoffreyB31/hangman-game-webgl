@@ -33,24 +33,24 @@ export default {
   padding: $keyboardLetterSize;
   margin: 5px;
   border-radius: 7px;
-  background-image: linear-gradient(to right, $keyboardColor1, $keyboardColor2);
+  background-image: linear-gradient(to right, $primary, $secondaray);
   background-attachment: fixed;
-  color: white;
+  color: $white;
   cursor: pointer;
   text-align: center;
-  box-shadow: 0px 2px 0 $darkGray;
+  box-shadow: 0px 2px 0 $shadow;
 
   &:hover {
-    background-image: linear-gradient(to right, $keyboardColor2, $keyboardColor1);
+    background-image: linear-gradient(to right, $secondaray, $primary);
   }
 
   &.letter-active {
     background-image: none;
-    background-color: $greenColor;
+    background-color: $green;
   }
 
   &.letter-error {
-    background-color: $redColor;
+    background-color: $red;
   }
 }
 </style>

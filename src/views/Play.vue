@@ -165,10 +165,10 @@ export default {
 }
 
 .display-container {
-  background-color: $keyboardColor1;
+  background-color: $primary;
 
   .state-container {
-    color: #fff;
+    color: $white;
     text-align: center;
     margin: 0 auto 25px auto;
     display: block;

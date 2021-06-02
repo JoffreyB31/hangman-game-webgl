@@ -25,12 +25,12 @@ export default {
   .home-title {
     margin: 0;
     padding: 50px;
-    color: #fff;
-    background-color: $keyboardColor1;
+    color: $white;
+    background-color: $primary;
   }
 
   .home-container {
-    background-color: $keyboardColor1;
+    background-color: $primary;
   }
 
   .home-description {

@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .locale-switcher {
-  background-color: $keyboardColor1;
+  background-color: $primary;
   display: flex;
   justify-content: flex-end;
 
@@ -46,8 +46,8 @@ export default {
     padding: 5px 20px !important;
 
     &.locale-active {
-      background-color: white !important;
-      color: $keyboardColor1 !important;
+      background-color: $white !important;
+      color: $primary !important;
       cursor: default !important;
     }
   }

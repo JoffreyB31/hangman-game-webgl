@@ -34,7 +34,7 @@ export default {
   }
 
   .shape {
-    fill: #fff;
+    fill: $white;
   }
 }
 </style>

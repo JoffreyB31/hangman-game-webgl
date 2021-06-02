@@ -40,9 +40,9 @@ export default {
   padding: $displayLetterSize/2;
   font-size: $displayLetterSize;
   margin-right: 7px;
-  color: #fff;
+  color: $white;
   text-align: center;
-  border-bottom: 10px solid #fff;
+  border-bottom: 10px solid $white;
   font-weight: bold;
 
   &:last-child {
@@ -54,11 +54,11 @@ export default {
   }
 
   &.display-letter-correct {
-    color: $greenColorLight;
+    color: $greenLight;
   }
 
   &.display-letter-error {
-    color: $redColorLight;
+    color: $redLight;
   }
 }
 </style>

@@ -27,12 +27,12 @@ export default {
 }
 
 .game-button {
-  color: $keyboardColor1 !important;
-  background-color: white !important;
+  color: $primary !important;
+  background-color: $white !important;
 
   &:hover {
-    background-color: $keyboardColor1 !important;
-    color: white !important;
+    background-color: $primary !important;
+    color: $white !important;
   }
 }
 </style>

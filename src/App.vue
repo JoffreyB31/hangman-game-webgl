@@ -31,14 +31,14 @@ body {
     padding: 12px 30px;
     margin: 5px;
     border-radius: 7px;
-    color: white;
-    background-color: $keyboardColor1;
+    color: $white;
+    background-color: $primary;
     cursor: pointer;
     text-align: center;
     transition: all 250ms ease-in-out;
 
     &:hover {
-      color: $keyboardColor1;
+      color: $primary;
       background-color: white;
     }
   }
