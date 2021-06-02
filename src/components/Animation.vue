@@ -51,12 +51,12 @@ export default {
 
   watch: {
     counter(newVal, oldVal) {
-      if (newVal !== oldVal) {
+      if (newVal !== oldVal && WEBGL.isWebGLAvailable()) {
         this.updateHangman();
       }
     },
     activeLocale(newVal, oldVal) {
-      if (newVal !== oldVal) {
+      if (newVal !== oldVal && WEBGL.isWebGLAvailable()) {
         this.setGameNameText();
       }
     },

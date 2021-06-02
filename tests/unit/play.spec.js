@@ -21,6 +21,9 @@ describe("Play.vue", () => {
     expect(displayLettersNodes.at(7).text()).toEqual("");
     expect(displayLettersNodes.at(8).text()).toEqual("");
 
+    const stateNode = wrapper.find(".state-container");
+    expect(stateNode.text()).toEqual("Erreurs restantes : 7");
+
     const keyboardNodes = wrapper.findAll(".game-container .keyboard-container div");
     expect(keyboardNodes.length).toBe(26);
   });
