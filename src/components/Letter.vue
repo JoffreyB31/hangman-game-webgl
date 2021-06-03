@@ -40,6 +40,11 @@ export default {
   text-align: center;
   box-shadow: 0px 2px 0 $shadow;
 
+  @include sm {
+    width: $keyboardLetterSize/2;
+    padding: $keyboardLetterSize/1.25;
+  }
+
   &:hover {
     background-image: linear-gradient(to right, $secondaray, $primary);
   }

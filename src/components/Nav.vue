@@ -43,7 +43,7 @@ export default {
   justify-content: flex-end;
 
   .locale-button {
-    padding: 5px 20px !important;
+    padding: 5px $smallGap !important;
 
     &.locale-active {
       background-color: $white !important;

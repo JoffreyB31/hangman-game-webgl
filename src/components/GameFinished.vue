@@ -23,7 +23,7 @@ export default {
 <style lang="scss" scoped>
 .game-finished-text {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: $smallGap;
 }
 
 .game-button {

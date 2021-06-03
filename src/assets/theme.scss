@@ -9,5 +9,33 @@ $redLight: rgb(238, 160, 160);
 $primary: rgb(76, 115, 230);
 $secondaray: rgb(164, 84, 233);
 
+$displayLetterBorder: 5px;
 $displayLetterSize: 1.5em;
 $keyboardLetterSize: 1.1em;
+
+$smallGap: 25px;
+$normalGap: 50px;
+
+$screen-sm: 600px;
+$screen-md: 960px;
+$screen-lg: 1280px;
+
+// media devices
+
+@mixin sm {
+  @media screen and (max-width: #{$screen-sm}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media screen and (max-width: #{$screen-md}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media screen and (max-width: #{$screen-lg}) {
+    @content;
+  }
+}

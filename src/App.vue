@@ -24,9 +24,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: "100vw";
+  min-width: 300px;
   height: "100vh";
 
   .app-button {
+    display: inline-block;
     text-decoration: none;
     padding: 12px 30px;
     margin: 5px;

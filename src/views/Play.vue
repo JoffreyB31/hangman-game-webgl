@@ -170,7 +170,7 @@ export default {
   .state-container {
     color: $white;
     text-align: center;
-    margin: 0 auto 25px auto;
+    margin: 0 auto $smallGap auto;
     display: block;
 
     p {
@@ -179,11 +179,15 @@ export default {
   }
 
   .display-container-inner {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     max-width: 90%;
     justify-content: center;
-    padding-bottom: 50px;
+    padding-bottom: $normalGap;
     margin-bottom: 0;
+
+    @include md {
+      max-width: 100%;
+    }
   }
 }
 
@@ -200,7 +204,7 @@ export default {
     margin-bottom: 0;
 
     .counter-animation {
-      margin-bottom: 20px;
+      margin-bottom: $smallGap;
     }
   }
 
@@ -208,7 +212,10 @@ export default {
     display: flex;
     flex-wrap: wrap;
     max-width: 80%;
-    min-width: 500px;
+
+    @include sm {
+      max-width: 95%;
+    }
   }
 }
 </style>

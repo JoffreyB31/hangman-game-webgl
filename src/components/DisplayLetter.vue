@@ -37,13 +37,20 @@ export default {
   min-height: $displayLetterSize;
   align-items: center;
   align-content: center;
-  padding: $displayLetterSize/2;
+  padding: $displayLetterSize/4;
   font-size: $displayLetterSize;
   margin-right: 7px;
   color: $white;
   text-align: center;
-  border-bottom: 10px solid $white;
+  border-bottom: $displayLetterBorder solid $white;
   font-weight: bold;
+
+  @include sm {
+    width: $displayLetterSize/2;
+    max-width: $displayLetterSize/2;
+    min-height: $displayLetterSize/2;
+    padding: $displayLetterSize/2 $displayLetterSize/3;
+  }
 
   &:last-child {
     margin-right: 0;

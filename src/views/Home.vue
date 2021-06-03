@@ -24,7 +24,7 @@ export default {
 
   .home-title {
     margin: 0;
-    padding: 50px;
+    padding: $normalGap;
     color: $white;
     background-color: $primary;
   }
@@ -35,8 +35,13 @@ export default {
 
   .home-description {
     max-width: 600px;
-    margin: 0 auto 50px auto;
+    margin: 0 auto;
     text-align: left;
+
+    @include sm {
+      margin: 0 auto;
+      padding: 0 $smallGap;
+    }
   }
 }
 </style>
