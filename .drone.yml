@@ -1,6 +1,15 @@
-pipeline:
-  build:
+name: production
+kind: pipeline
+type: docker
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: build
     image: node:latest
     commands:
-      - npm install
-      - npm run test:unit
+      - yarn install --production
+      - yarn add @vue/cli-service
+      - yarn run test:unit
