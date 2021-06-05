@@ -10,6 +10,5 @@ steps:
   - name: build
     image: node:latest
     commands:
-      - yarn install --production
-      - yarn add @vue/cli-service
+      - CYPRESS_INSTALL_BINARY=0 yarn install
       - yarn run test:unit
