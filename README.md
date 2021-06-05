@@ -1,4 +1,4 @@
-# jeu
+# Jeu du pendu version VueJS + animation WebGL avec ThreeJS
 
 ## Project setup
 ```
@@ -18,6 +18,12 @@ yarn build
 ### Lints and fixes files
 ```
 yarn lint
+```
+
+### Tests
+```
+yarn run test:unit
+yarn run test:e2e
 ```
 
 ### Customize configuration
