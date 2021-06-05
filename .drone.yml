@@ -1,11 +1,6 @@
----
-kind: pipeline
-type: docker
-name: default
-
-steps:
-  - name: frontend
-    image: node
+pipeline:
+  build:
+    image: node:latest
     commands:
       - npm install
       - npm run test:unit
